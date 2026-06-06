@@ -18,12 +18,16 @@ def fetch_latest_papers(max_results: int = 5):
         "User-Agent": "ResearchOpsAI/0.1 (mailto:shimamaleki95@gmail.com)"
     }
 
-    response = httpx.get(
-        settings.ARXIV_BASE_URL,
-        params=params,
-        headers=headers,
-        timeout=30,
-    )
+    try:
+        response = httpx.get(
+            settings.ARXIV_BASE_URL,
+            params=params,
+            headers=headers,
+            timeout=30,
+        )
+    except httpx.ReadTimeout:
+        print("arXiv request timed out. Please try again later.")
+        return []
 
     try:
         response.raise_for_status()
@@ -68,12 +72,16 @@ def search_papers(query: str, max_results: int = 5):
         "User-Agent": "ResearchOpsAI/0.1 (mailto:shimamaleki95@gmail.com)"
     }
 
-    response = httpx.get(
-        settings.ARXIV_BASE_URL,
-        params=params,
-        headers=headers,
-        timeout=30,
-    )
+    try:
+        response = httpx.get(
+            settings.ARXIV_BASE_URL,
+            params=params,
+            headers=headers,
+            timeout=30,
+        )
+    except httpx.ReadTimeout:
+        print("arXiv request timed out. Please try again later.")
+        return []
 
     try:
         response.raise_for_status()
