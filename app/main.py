@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from app.services.arxiv_service import fetch_latest_papers, search_papers
 from app.ingestion.ingest_papers import ingest_latest_papers
 from app.services.search_service import semantic_search
+from app.services.rag_service import answer_question
 
 app = FastAPI(title="ResearchOps AI")
 
@@ -28,5 +29,10 @@ def ingest(max_results: int = 5):
 @app.get("/papers/semantic-search")
 def semantic_paper_search(query: str, limit: int = 5):
     return semantic_search(query=query, limit=limit)
+
+
+@app.get("/ask")
+def ask_question(question: str, limit: int = 3):
+    return answer_question(question=question, limit=limit)
 
 
