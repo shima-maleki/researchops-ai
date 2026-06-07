@@ -10,6 +10,13 @@ client = OpenAI(api_key=settings.OPENAI_API_KEY)
 def answer_question(question: str, limit: int = 3):
     papers = semantic_search(query=question, limit=limit)
 
+    if not papers:
+        return {
+            "question": question,
+            "answer": "No relevant papers were found in Qdrant yet. Please run ingestion first using POST /ingest.",
+            "sources": [],
+        }
+
     context = ""
 
     for paper in papers:
